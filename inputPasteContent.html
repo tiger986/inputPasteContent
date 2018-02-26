@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.box{
+			width: 400px;
+			height: 300px;
+			margin: 200px auto;
+		}
+		.con{
+			width: 400px;
+			height: 200px;
+			border: 1px solid #e5e5e5;
+			overflow-y: auto;
+		}		
+	</style>
+	<script src="jquery-1.10.1.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<div class="box">
+		<div class="con" contenteditable="true"></div>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	
+	$(function(){
+		
+		$(".con").bind("paste", function(){
+			var _this = $(this);
+			setTimeout(function(){				
+				var con = _this.html();				
+				var i, match;
+				match = con.match(/<[^>]+>/gi);
+	            if (match) {
+	                for (i in match) {
+	                    if (!match[i].match(/<(input|div|br).*?(?:>|\/>)/gi)) {
+	                        con = con.replace(match[i], '');
+	                    }
+	                }
+	            }
+	            match = con.match(/{[^}]+}/gi);
+	            if (match) {
+	                for (i in match) {
+	                    if (!match[i].match(/<(input|div|br).*?(?:>|\/>)/gi)) {
+	                        con = con.replace(match[i], '');
+	                    }
+	                }
+	            }
+				_this.html(con);
+			}, 30)
+		})
+		
+	})
+	
+</script>
